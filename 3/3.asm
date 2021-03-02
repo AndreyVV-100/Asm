@@ -3,6 +3,12 @@
 
 org 100h
 
+start_workplaceX = 0
+start_workplaceY = 0
+
+size_workplaceX = 80
+size_workplaceY = 25
+
 size_screenX = 80
 size_screenY = 25
 
@@ -43,14 +49,24 @@ Start:
     int 21h    
     
 ClearScreen proc
-    mov bx, 0
 
-    while_not_clear:
-        mov byte ptr es:[bx]  , null_symbol
-        mov byte ptr es:[bx+1], null_color
-        add bx, 2
-        cmp bx, 2 * size_screenX * size_screenY
-        jbe while_not_clear
+    mov ax, 2 * (size_screenX * start_workplaceY + start_workplaceX)
+
+    while_Y:
+
+        mov bx, ax
+        add ax, 2 * size_workplaceX
+
+        while_X:
+            mov byte ptr es:[bx]  , null_symbol
+            mov byte ptr es:[bx+1], null_color
+            add bx, 2
+            cmp bx, ax
+            jb while_X
+
+        add ax, 2 * (size_screenX - size_workplaceX)
+        cmp ax, 2 * size_screenX * (size_workplaceY + start_workplaceY)
+        jb while_Y
 
     ret
     endp
@@ -243,6 +259,6 @@ Pause proc
     ret
     endp
 
-Frase db 'Добро пожаловать на сервер шизофрения', 0
+Frase db 'Добро пожаловать на сервер шизофрения!', 0
 Frase_Color db 8 dup (74h, 75h, 72h, 73h, 71h)
 end Start
