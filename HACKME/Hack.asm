@@ -13,7 +13,7 @@ Start:
     lea bx, Buf
     call Input 
 
-    ; lea bx, Buf
+    lea bx, Buf
     call CheckPassword
 
     ; mov ah, 0Ah
@@ -39,19 +39,39 @@ Start:
 
 Input proc
 
-    mov ah, 01h
+    ; mov ah, 01h
+    ; int 21h
+    ; cmp al, 0Dh
+    ; je InputEnd
+
+    ; mov byte ptr ds:[bx], al 
+    ; inc bx
+    ; jmp Input
+
+    ; InputEnd:
+    ; mov byte ptr ds:[bx], END_OF_LINE
+
+    ; Open file
+
+    mov ah, 3Dh
+    mov al, 0
+    lea dx, FileName
     int 21h
-    cmp al, 0Dh
-    je InputEnd
 
-    mov byte ptr ds:[bx], al 
-    inc bx
-    jmp Input
+    ; ReadFile
+    mov bx, ax
+    mov ah, 3Fh
+    mov cx, 0FFFFh
+    lea dx, buf
+    int 21h
 
-    InputEnd:
-    mov byte ptr ds:[bx], END_OF_LINE
+    ; Close file
+
+    mov ah, 3Eh
+    int 21h
+
     ret
-    endp    
+    endp
 
 CheckPassword proc
 
@@ -95,6 +115,7 @@ CheckPassword proc
 
 .data
 
+FileName db "S:\ASM\HACK\file.txt", 0
 Accessed db "Accessed$"
 Failed   db "Failed$"
 
