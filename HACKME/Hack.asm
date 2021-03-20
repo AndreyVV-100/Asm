@@ -11,7 +11,10 @@ END_OF_LINE = 0
 Start:
 
     lea bx, Buf
+
+    push 1
     call Input 
+    add sp, 2
 
     lea bx, Buf
     call CheckPassword

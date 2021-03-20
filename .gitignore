@@ -4,9 +4,19 @@
 *.map
 
 *.COM
+*.CUM
 *.OBJ
 *.LST
 *.MAP
 
 *.out
 *.txt
+
+sfml-app
+*.o
+
+*.mp3
+*.ogg
+
+*.jpg
+*.png
