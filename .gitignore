@@ -2,6 +2,7 @@
 *.obj
 *.lst
 *.map
+*.cum
 
 *.COM
 *.CUM
@@ -17,6 +18,8 @@ sfml-app
 
 *.mp3
 *.ogg
+
+*.ttf
 
 *.jpg
 *.png
